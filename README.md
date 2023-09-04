@@ -5,4 +5,6 @@ To simulate the incoming weather data and fire data, we created three servers an
 
 Overall picture of the application:
 ![Architecture of application](images/architecture.png)
+
+
 This application was implemented as a part of university assignment.
