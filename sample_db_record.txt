@@ -1,0 +1,42 @@
+{
+    _id: ObjectId("64756f7b118228bffc33c807"),
+    station: 948702,
+    date: '15/12/2022',
+    air_temperature_celcius: 18,
+    relative_humidity: 52,
+    windspeed_knots: 7.1,
+    max_wind_speed: 14,
+    precipitation: 0,
+    precipitation_status: 'I',
+    ghi: 152,
+    fires: [
+      {
+        latitude: -37.627,
+        longitude: 149.33,
+        confidence: 92,
+        surface_temperature_celcius: 42,
+        time: '13:17:17'
+      },
+      {
+        latitude: -37.658,
+        longitude: 149.339,
+        confidence: 78,
+        surface_temperature_celcius: 36,
+        time: '13:17:17'
+      },
+      {
+        latitude: -37.623,
+        longitude: 149.323,
+        confidence: 51,
+        surface_temperature_celcius: 38,
+        time: '13:17:17'
+      },
+      {
+        latitude: -38.038,
+        longitude: 142.986,
+        confidence: 65,
+        surface_temperature_celcius: 40,
+        time: '01:16:23'
+      }
+    ]
+}
