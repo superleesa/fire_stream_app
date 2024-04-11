@@ -1,10 +1,11 @@
 # Fire Stream App
 
-This application uses Spark to processes incoming fire and weather data by classifying if a fire is man-made or natural, and storing these classified data to MongoDB for later analysis/visualization uses.
-To simulate the incoming weather data and fire data, we created three servers and Kafka producers. 
+A streaming prcoessing app and monktoring tool for fire events on earth. 
+
+Some functionalities:
+1. When fire event is streamed to the app, it classifies fire event between man-made or natural, by comaprisng the geohash of the event locations.
+2. The app stores the classification result toghether with the fire even record on MongoDB for later analysis/visualization.
+3. To simulate the incoming weather data and fire data, we created three servers and Kafka producers. 
 
 Overall picture of the application:
 ![Architecture of application](images/architecture.png)
-
-
-This application was implemented as a part of university assignment.
