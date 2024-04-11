@@ -1,14 +1,8 @@
 from pymongo import MongoClient
 import csv
 
-host_ip = "172.26.64.1"
 
-# connect to mongo and initialize a database for the hotspot data
-client = MongoClient(f"mongodb://{host_ip}:27017/")
-database_name = "hotspot"
-db = client[database_name]
-collection = db["climate"]
-client.list_databases()
+HOST_IP = "172.26.64.1"
 
 
 def process_climate_row(row):
@@ -49,27 +43,30 @@ def process_hotspot_row(row):
     return dict(zip(header, new_row))
 
 
-# read the cliamte csv file and insert each row to the mongodb database
-with open("climate_historic.csv") as file:
-    reader = csv.reader(file)
+if __name__ == "__main__":
+    # connect to mongo and initialize a database for the hotspot data
+    client = MongoClient(f"mongodb://{HOST_IP}:27017/")
+    database_name = "hotspot"
+    db = client[database_name]
+    collection = db["climate"]
+    client.list_databases()
 
-    header = None
-    for i, row in enumerate(reader):
-        if i != 0:
-            # insert into mongodb
-            result = collection.insert_one(process_climate_row(row))
-            print(result)
+    # fill the DB with dummy weather data records from csv
+    with open("climate_historic.csv") as file:
+        reader = csv.reader(file)
+        header = None
+        for i, row in enumerate(reader):
+            if i != 0:
+                # insert into mongodb
+                result = collection.insert_one(process_climate_row(row))
+                print(result)
 
-
-
-# read the cliamte csv file and insert each row to the mongodb database
-with open("hotspot_historic.csv") as file:
-    reader = csv.reader(file)
-
-    date_col_idx = 1
-    for i, row in enumerate(reader):
-        if i != 0:
-            filter_ = {"date": row[4]}
-            update = {"$push": {"fires": process_hotspot_row(row)}}
-            result = collection.update_one(filter_, update)
-            print(result)
+    # add dummy fire events to matching weather date records
+    with open("hotspot_historic.csv") as file:
+        reader = csv.reader(file)
+        for i, row in enumerate(reader):
+            if i != 0:
+                filter_ = {"date": row[4]}
+                update = {"$push": {"fires": process_hotspot_row(row)}}
+                result = collection.update_one(filter_, update)
+                print(result)
