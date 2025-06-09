@@ -1,0 +1,63 @@
+version: '3.8'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - '2181:2181'
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    depends_on:
+      - zookeeper
+    ports:
+      - '9092:9092'
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+
+  mongo:
+    image: mongo:6
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+  app:
+    build: .
+    command: python main.py
+    depends_on:
+      - kafka
+      - mongo
+    environment:
+      - PYSPARK_PYTHON=python
+      - PYSPARK_DRIVER_PYTHON=python
+    ports:
+      - '4040:4040'
+
+  producer1:
+    build: .
+    command: python producer1.py
+    depends_on:
+      - kafka
+
+  producer2:
+    build: .
+    command: python producer2.py
+    depends_on:
+      - kafka
+
+  producer3:
+    build: .
+    command: python producer3.py
+    depends_on:
+      - kafka
+
+volumes:
+  mongo-data:
