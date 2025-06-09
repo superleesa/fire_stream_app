@@ -1,0 +1,17 @@
+[project]
+name = "fire_stream_app"
+version = "0.1.0"
+description = "Streaming preprocessing app and monitoring tool for fire events."
+authors = [{name = "Unknown"}]
+requires-python = ">=3.8"
+dependencies = [
+    "pymongo",
+    "pyspark",
+    "kafka-python3==3.0.0",
+    "matplotlib",
+    "python-geohash",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
